@@ -7,6 +7,7 @@
 Capture::Capture()
 {
   szPrevOSDMessage="";
+  framesize_ptr=0;
 }
 
 
@@ -138,6 +139,9 @@ void Capture::StartCapture(string source, string prefix, string outdir, string c
   
   DiskWriter dw(outdir, prefix);
   
+  deadfilename=outdir+"/dead."+prefix;
+  unlink(deadfilename.c_str());
+  
   open_video_dev(source.c_str());
   v4l_prepare();
   
@@ -175,13 +179,30 @@ void Capture::StartCapture(string source, string prefix, string outdir, string c
       got_vop = true;
     }
 
-//     if (vb.flags & V4L2_BUF_FLAG_KEYFRAME)
-//       cout << vb.bytesused << " keyframe" << endl;
-//     else
-//       cout << vb.bytesused << endl;
-
     if (!dw.Write(p_buf[vb.index].data, vb.bytesused, vb.flags & V4L2_BUF_FLAG_KEYFRAME))
       err_out((char*)"Unable to write to disk");
+
+    // see if the input is dead
+
+    framesizes[framesize_ptr++]=vb.bytesused;
+    if (framesize_ptr==FRAMESIZE_WINDOW)
+    {
+      struct stat st;
+      int sum=0;
+      for (int i=0; i<FRAMESIZE_WINDOW; i++)
+        sum+=framesizes[i];
+      framesize_ptr=0;
+      if (sum/FRAMESIZE_WINDOW<DEAD_THRESHOLD)
+      {
+        if (stat(deadfilename.c_str(), &st))
+          close(creat(deadfilename.c_str(), S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH));
+      }
+      else
+      {
+        if (!stat(deadfilename.c_str(), &st))
+          unlink(deadfilename.c_str());
+      }
+    }
 
     ioctl(vfd, VIDIOC_QBUF, &vb);
   }

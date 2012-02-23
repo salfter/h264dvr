@@ -16,6 +16,8 @@
 #include "config.h"
 
 #define V_BUFFERS 8
+#define FRAMESIZE_WINDOW 60
+#define DEAD_THRESHOLD 1024
 
 #define reset_vbuf(__vb) do {				\
 	memset((__vb), 0, sizeof(*(__vb)));		\
@@ -43,6 +45,9 @@ private:
   void set_osd(char* fmt, ...);
   void v4l_prepare();
   string szPrevOSDMessage;
+  int framesizes[FRAMESIZE_WINDOW];
+  int framesize_ptr;
+  string deadfilename;
 public:
   void StartCapture(string source, string prefix, string outdir, string caption);
   Capture();

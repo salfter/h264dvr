@@ -1,0 +1,14 @@
+== setting up the environment ==
+
+emerge crossdev && crossdev i686-pc-mingw32 && emerge nsis
+tar xjf /usr/portage/distfiles/wxPython-src-2.8.11.0.tar.bz2
+cd wxPython-src-2.8.11.0
+./configure --prefix=/usr/i686-pc-mingw32 --host=i686-pc-mingw32 --target=i686-pc-mingw32 --with-msw --enable-unicode && make && make install
+
+== finding DLLs that may need to be included with EXEs ==
+
+find /usr/i686-pc-mingw32/ /usr/*-pc-linux-gnu/i686-pc-mingw32/gcc-bin/ -name \*.dll -exec du \{} \;
+
+== building this package ==
+
+./configure --host=i686-pc-mingw32 --with-wx-config=/usr/i686-pc-mingw32/bin/wx-config

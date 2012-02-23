@@ -58,6 +58,6 @@ AC_FUNC_MMAP
 AC_CHECK_FUNCS([clock_gettime memset])
 
 # create top-level and subdirectory makefiles
-AC_CONFIG_FILES([Makefile src/Makefile lib/Makefile])
+AC_CONFIG_FILES([Makefile src/Makefile lib/Makefile include/Makefile])
 
 AC_OUTPUT

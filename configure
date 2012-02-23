@@ -5283,7 +5283,7 @@ done
 
 
 # create top-level and subdirectory makefiles
-ac_config_files="$ac_config_files Makefile src/Makefile lib/Makefile"
+ac_config_files="$ac_config_files Makefile src/Makefile lib/Makefile include/Makefile"
 
 
 cat >confcache <<\_ACEOF
@@ -6028,6 +6028,7 @@ do
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "src/Makefile") CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
     "lib/Makefile") CONFIG_FILES="$CONFIG_FILES lib/Makefile" ;;
+    "include/Makefile") CONFIG_FILES="$CONFIG_FILES include/Makefile" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac

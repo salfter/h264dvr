@@ -16,6 +16,9 @@ AC_PROG_RANLIB
 
 # check for wxWidgets
 
+reqwx=2.8.11
+AM_PATH_WXCONFIG($reqwx, wxWin=1)
+
 WXCONFIG=wx-config
 AC_ARG_WITH(wx-config,
 [[  --with-wx-config=FILE     Use the given path to wx-config when determining

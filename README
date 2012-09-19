@@ -1,0 +1,8 @@
+This is an attempt at rolling my own DVR software for Bluecherry capture
+cards.  So far, I have full-resolution, full-framerate capture working on 4
+inputs of a 16-input card.  (I haven't tried more inputs or lower
+resolution, as my intended application needed at least 640x480 at 30000/1001
+fps.)  My intended design was to provide a server component that would run
+under Linux to pass along requested video to a client that would work under
+either Linux or Windows (built around wxWidgets).  These components are
+missing.
